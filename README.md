@@ -1,4 +1,4 @@
-# Welcome to the AI Security Agent - VS Code extension
+# Welcome to the AI-powered Security Agent - Core Backend (Python, FastAPI, LLMs orchestraction)
 
 My plan is to build a system called AI-Powered Security Agent. It will scan for security issues, vulnerabilities, and CVEs in our code while developers are working in the VS Code IDE, as well as during GitHub pull requests, Jenkins CI builds, and CLI scans.
 
