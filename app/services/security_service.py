@@ -2,9 +2,12 @@ from app.services.llm_service import (
     llm_service
 )
 import json
+import re
 
 class SecurityService:
-
+##############################################
+# analyze
+##############################################
     async def analyze(
         self,
         rule_id:str,
@@ -33,15 +36,17 @@ Return:
 
         return result
 
-
+##############################################
+# suggest-fix
+##############################################
     async def suggest_fix(
         self,
-        rule_id:str,
-        code:str
+        rule_id: str,
+        code: str
     ):
 
-        prompt=f"""
-Analyze security issue.
+        prompt = f"""
+Analyze this security issue.
 
 Rule:
 {rule_id}
@@ -49,7 +54,10 @@ Rule:
 Code:
 {code}
 
-Return ONLY JSON:
+Return ONLY valid JSON.
+Do not include explanations outside JSON.
+
+Format:
 
 {{
     "severity":"HIGH",
@@ -59,11 +67,43 @@ Return ONLY JSON:
 }}
 """
 
-        result=await llm_service.ask(
+        result = await llm_service.ask(
             prompt
         )
 
-        return json.loads(result)
+        print("RAW LLM RESPONSE:")
+        print(result)
 
+        try:
+            return json.loads(result)
+
+        except json.JSONDecodeError:
+
+            # Extract JSON block if model wrapped it
+            match = re.search(
+                r'\{.*\}',
+                result,
+                re.DOTALL
+            )
+
+            if match:
+
+                try:
+                    return json.loads(
+                        match.group()
+                    )
+
+                except Exception:
+                    pass
+
+            return {
+                "severity":"UNKNOWN",
+                "owasp":"UNKNOWN",
+                "explanation":
+                    "Unable to parse AI response",
+
+                "fixed_code":""
+            }
+#####################################################
 
 security_service = SecurityService()

@@ -35,21 +35,23 @@ Acts as the central services for analysis and coordination.
 - dotenv
 
 ## Commands
-uvicorn app.main:app
 python -c "import fastapi; print(fastapi.__version__)"
 uv pip install fastapi uvicorn openai python-dotenv
 .\.venv\Scripts\activate  
 uv venv 
-uv sync 
 vsce --version
 vsce package
 semgrep --version  
 semgrep --config auto --json ./src > semgrep-scan2.json 
 pip install semgrep 
 
+## Execution
+- uv sync
+- uvicorn app.main:app
+
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## ?? Links
+## Links
 - [VS Code Extension](https://marketplace.visualstudio.com/items)
 - [OWASP Foundation](https://owasp.org/)
