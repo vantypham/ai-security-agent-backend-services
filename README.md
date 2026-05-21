@@ -15,7 +15,7 @@ Acts as the central services for analysis and coordination.
 ![diagram](architect.png)
 
 ### Multiple clients:
-- VS Code extension (THIS) - VS Code Extension → local Semgrep/Gitleaks → send findings → FastAPI → OpenAI → remediation suggestions.
+- VS Code extension
 - GitHub Actions
 - Jenkins pipeline
 - CLI tool
